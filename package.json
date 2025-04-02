@@ -1,0 +1,22 @@
+{
+  "name": "foodstagram",
+  "version": "1.0.0",
+  "description": "food app",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subhashree13/react-ui-apps.git"
+  },
+  "author": "Subhashree",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Subhashree13/react-ui-apps/issues"
+  },
+  "homepage": "https://github.com/Subhashree13/react-ui-apps#readme",
+  "devDependencies": {
+    "parcel": "^2.14.4"
+  }
+}
