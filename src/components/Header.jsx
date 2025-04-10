@@ -1,4 +1,9 @@
+import { useState } from "react";
 const Header = () => {
+  const[btnState, setBtnState] = useState('logout');
+  const handleUserState = ()=>{
+    setBtnState(btnState==="logout"?"login":"logout");
+  }
   return (
     <div className="header flex justify-between items-center bg-orange-50 ">
       <div className="logo-container m-[30px] w-[100px] h-[100px] cursor-pointer">
@@ -10,6 +15,9 @@ const Header = () => {
           <li className="cursor-pointer hover:underline" href="/about">About</li>
           <li className="cursor-pointer hover:underline" href="/contact">Contact Us</li>
           <li className="cursor-pointer hover:underline" href="/cart">Cart</li>
+          <li className="cursor-pointer">
+            <button className="cursor-pointer border-1" onClick={handleUserState}>{btnState}</button>
+          </li>
         </ul>
       </div>
     </div>
