@@ -22,4 +22,14 @@ const RestaurantCard = (props) => {
   );
 };
 
+//HOC(Higher order component)
+export const resCardWithDiscount = (RestaurantCard)=>{
+  return ({discountAmount, ...rest})=>{
+    return <div>
+      <h1 className="absolute text-white font-bold m-1 bg-gradient-to-b from-black">{discountAmount}</h1>
+      <RestaurantCard {...rest}/>
+    </div>
+  }
+
+}
 export default RestaurantCard;

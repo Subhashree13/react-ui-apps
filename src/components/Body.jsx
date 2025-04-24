@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import useOnlineStatus from "../hooks/useOnlineStatus";
 import { RES_TYPE, RES_URL } from "../utils/constants";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { resCardWithDiscount } from "./RestaurantCard";
 import RestaurantShimmerCard from "./RestaurantShimmerCard";
 //call the api to fetch the list of restaurants on page load
 const Body = () => {
@@ -10,6 +10,7 @@ const Body = () => {
   const [resList, setReslist] = useState([]);
   const [cuisineType, setCuisineType] = useState("");
   const [filteredResList, setFilteredResList] = useState([]);
+  const RestaurantCardWithDiscount = resCardWithDiscount(RestaurantCard);
   useEffect(() => {
     fetchRestaurant();
   }, []);
@@ -21,24 +22,36 @@ const Body = () => {
     )[0]?.card?.card?.gridElements?.infoWithStyle;
     if (resInfo) {
       const restaurants = resInfo?.restaurants;
+      console.log("restaurants---", restaurants);
       setReslist((list) => [...list, ...restaurants]);
       setFilteredResList((list) => [...list, ...restaurants]);
     }
   };
   const renderRestaurantCard = () => {
     if (filteredResList && filteredResList.length > 0) {
-      return filteredResList.map((res) => {
+      return filteredResList.map((res, index) => {
         let info = res.info;
         return (
-          <Link to={`/restaurantMenu/${info.id}`} key={info.id}>
-            <RestaurantCard
-              name={info.name}
+          <Link to={`/restaurantMenu/${info.id}`} key={info.id + index}>
+            {info.aggregatedDiscountInfoV3 &&
+            info.aggregatedDiscountInfoV3.header && info.aggregatedDiscountInfoV3.subHeader ? (
+              <RestaurantCardWithDiscount name={info.name}
               locality={info.locality}
               avgRating={info.avgRating}
               deliveryTime={info.sla.deliveryTime}
               cuisines={info.cuisines}
               image={info.cloudinaryImageId}
-            />
+              discountAmount={info.aggregatedDiscountInfoV3.header + " " + info.aggregatedDiscountInfoV3.subHeader}/>
+            ) : (
+              <RestaurantCard
+                name={info.name}
+                locality={info.locality}
+                avgRating={info.avgRating}
+                deliveryTime={info.sla.deliveryTime}
+                cuisines={info.cuisines}
+                image={info.cloudinaryImageId}
+              />
+            )}
           </Link>
         );
       });
@@ -49,7 +62,7 @@ const Body = () => {
     const topRatedRestaurants = resList.filter(
       (item) => item.info.avgRating > 4.5
     );
-    setReslist(topRatedRestaurants);
+    setFilteredResList(topRatedRestaurants);
   };
   const handleCuisineType = (e) => {
     setCuisineType(e.target.value);
@@ -62,7 +75,7 @@ const Body = () => {
     );
     setFilteredResList(filteredData);
   };
-  if(onlineStatus === false) return <h1>Looks like you are offline!</h1>
+  if (onlineStatus === false) return <h1>Looks like you are offline!</h1>;
   return resList.length === 0 ? (
     <RestaurantShimmerCard />
   ) : (

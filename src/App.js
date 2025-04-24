@@ -8,6 +8,7 @@ import ContactUs from "./components/ContactUs";
 import Error from "./components/Error";
 import Cart from "./components/Cart";
 import RestaurantMenu from "./components/RestaurantMenu";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 const Grocery = lazy(() => import("./components/Grocery"));
 const App = () => {
@@ -29,8 +30,8 @@ const appRoutes = createBrowserRouter([
         element: <Body />,
       },
       {
-        path: "/about",
-        element: <About />,
+        element: <ProtectedRoutes />,
+        children: [{ path: "/about", element: <About /> }],
       },
       {
         path: "/contactUs",

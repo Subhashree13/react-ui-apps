@@ -10,11 +10,10 @@ const useRestaurantMenu = (resId)=>{
 const fetchMenuList = async () => {
     const res = await fetch(RES_MENU_URL.replace("{res_id}", resId));
     const resData = await res.json();
-    console.log("resData", resData);
     setResInfo(resData.data);
     setMenuItem(
       resData.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
-        (res) => res.card.card.title
+        (res) => res.card.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
       )
     );
   };
