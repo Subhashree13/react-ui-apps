@@ -9,13 +9,18 @@ import Error from "./components/Error";
 import Cart from "./components/Cart";
 import RestaurantMenu from "./components/RestaurantMenu";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { Provider } from 'react-redux';
+import  appStore  from './utils/appStore';
 
 const Grocery = lazy(() => import("./components/Grocery"));
 const App = () => {
   return (
     <div className="app">
+      <Provider store={appStore}>
       <Header />
       <Outlet />
+      </Provider>
+  
     </div>
   );
 };

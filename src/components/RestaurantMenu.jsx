@@ -29,7 +29,7 @@ const RestaurantMenu = () => {
               resCategory={res}
               key={res.card.card.categoryId}
               showMenuItem={index === showIndex ? true : isOpenMenuItem}
-              setShowIndex={()=>setShowIndex(index)}
+              setShowIndex={()=>{index === showIndex? setShowIndex(null  ) :setShowIndex(index)}}
             />
           ))}
         </section>

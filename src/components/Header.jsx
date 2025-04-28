@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import useOnlineStatus from "../hooks/useOnlineStatus";
+import { useSelector } from "react-redux";
 const Header = () => {
   const onlineStatus = useOnlineStatus();
+  //read data from store
+  const cartItems = useSelector((store)=> store.cart.items)
   const [btnState, setBtnState] = useState("logout");
   const handleUserState = () => {
     setBtnState(btnState === "logout" ? "login" : "logout");
@@ -35,7 +38,7 @@ const Header = () => {
             <Link to="/grocery">Grocery</Link>
           </li>
           <li className="cursor-pointer hover:underline">
-            <Link to="/cart">Cart</Link>
+            <Link to="/cart">Cart - ({cartItems?.length} items)</Link>
           </li>
           <li className="cursor-pointer">
             <button
